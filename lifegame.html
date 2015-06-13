@@ -42,6 +42,34 @@ window.onload = function() {
                 deadCell = [],
                 score;
 
+            for (var idx=0; idx<this._size; idx++) {
+                for (var jdx=0; jdx<this._size; jdx++) {
+                    score = 0;
+                    cell = this._Surround(idx, jdx);
+                    for(var kdx in cell) {
+                        if (this._cell[cell[kdx][ 0]][cell[kdx][ 1]]) {
+                            score++;
+                        }
+                    }
+                    delete cell;    cell = null;
+
+                    // 死亡セル
+                    if (score <= 1 || score >= 4) {
+                        deadCell.push([idx, jdx]);
+                    }
+                    // 生存セル
+                    else
+                    if (score == 3) {
+                        liveCell.push([idx, jdx]);
+                    }
+                }
+            }
+            for(var idx=0; idx<deadCell.length; idx++) {
+                this._cell[deadCell[idx][ 0]][deadCell[idx][ 1]] = false;
+            }
+            for(var idx=0; idx<liveCell.length; idx++) {
+                this._cell[liveCell[idx][ 0]][liveCell[idx][ 1]] = true;
+            }
             this._draw();
         },
 
